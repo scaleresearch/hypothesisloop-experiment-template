@@ -9,7 +9,7 @@
 # branch: experiment                    # required: the branch its agents start from, never under hl/
 # name: a few words                     # required, one line
 # description: |                        # required, at most 32768 bytes
-#   The brief, the only thing researchers read about the task: the goal, the metric and why it
+#   The description, the only thing researchers read about the task: the goal, the metric and why it
 #   is the goal, what to vary, the gate, how to run a trial, when to stop, and
 #   BASELINE
 #     config:    the exact configuration
