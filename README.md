@@ -1,8 +1,8 @@
 # REPLACE-WITH-THE-NAME-OF-THE-EXPERIMENT
 
 This repository holds one experiment on the HypothesisLoop platform: the code its jobs run and
-the files the platform and its agents read. Agents clone it and none commits to the default
-branch. A hypothesis is an idea and a branch is one agent's code for it:
+the files the platform and its agents read. Agents clone the branch `.hypothesisloop/experiment.yaml`
+names and none commits to it. A hypothesis is an idea and a branch is one agent's code for it:
 `hl/<platform experiment>/<agent>/<hypothesis>`, made by `hl hypothesis checkout`, so one
 hypothesis may have several. The baseline is measured on `hl/<platform experiment>/baseline`.
 A job runs the code of one commit, which `hl job submit` pushes on its branch.
@@ -10,14 +10,14 @@ A job runs the code of one commit, which `hl job submit` pushes on its branch.
 | File | What it is |
 |---|---|
 | `README.md` | this page |
-| `.hypothesisloop/experiment.yaml` | the experiment: its name, the brief researchers read, its metrics |
+| `.hypothesisloop/experiment.yaml` | the experiment: its project, repository and branch, its name, the brief researchers read, its metrics |
 | `.hypothesisloop/job.yaml` | the base job spec, submitted unedited for every trial |
 | `.hypothesisloop/Dockerfile` | the system packages and toolchains every job needs |
 | `metrics.py` | how a job reports a metric: `from metrics import post_metric`, then `post_metric(fraction_complete, value, "key")` as it runs and once at the end |
 | `.gitignore` | keeps bytecode caches, virtual environments and editor files out of a commit |
 
-`hl repo init` writes them into a clone with what the platform holds of the experiment filled
-in, and `hl repo check` says what is left to fill in.
+`hl repo init DIR` puts these files in a new directory, `hl platform-experiments start DIR` creates
+the experiment, and `hl repo check` says what is left to fill in.
 
 ## What is measured
 

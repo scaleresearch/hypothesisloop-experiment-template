@@ -1,9 +1,12 @@
 # The experiment spec: one platform experiment, keyed like the body of POST /platform-experiments.
-# `hl repo init` writes it whole from the platform experiment. To prepare a repository by hand,
-# uncomment and fill in, and `hl platform-experiments start DIR --repository R` creates the
-# experiment from it. Where the experiment is placed (project, repository, repository_account,
-# continues, starts_at) is stated by the request and refused here.
+# Uncomment and fill in, and `hl platform-experiments start DIR` creates the experiment from it:
+# it creates the repository from this template when it does not exist, pushes DIR to the branch
+# when the branch does not exist, and refuses a branch that holds other code. The UI reads it
+# from the branch too. continues and starts_at are stated by the UI or the API and refused here.
 #
+# project_id: ...                       # required: the id of the project the experiment belongs to
+# repository: owner/name                # required: the repository its code is in
+# branch: experiment                    # required: the branch its agents start from, never under hl/
 # name: a few words                     # required, one line
 # description: |                        # required, at most 32768 bytes
 #   The brief, the only thing researchers read about the task: the goal, the metric and why it
@@ -35,7 +38,7 @@
 #     model: claude-sonnet-5            # optional: the agent type's, else the platform's default
 #     hyperparameters: {}               # optional: a JSON object of at most 4096 bytes
 #     count: 2
-# coordinator_hosted: true              # the platform runs the coordinator and the baseline agent
+# coordinator_in_agentsandbox: true     # the platform runs the coordinator and the baseline agent
 # coordinator_model: claude-sonnet-5    # optional: the platform's coordinator default
 # report_interval_seconds: 10           # optional: how often a job reports, else the platform's
 # stages:                               # optional: the elimination ladder, else the platform's.
