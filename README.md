@@ -6,7 +6,7 @@ the files the platform and its agents read.
 | File | What it is |
 |---|---|
 | `README.md` | this page: what is measured, how a trial runs, what to vary |
-| `.hypothesisloop/experiment.yaml` | the experiment spec: its name, description, metrics, budget, length and team |
+| `.hypothesisloop/experiment.yaml` | the experiment spec: its name, description, metrics, budget (in H100-hours), length and team |
 | `.hypothesisloop/job.yaml` | the base job spec, submitted unedited for every trial |
 | `.hypothesisloop/Dockerfile` | the image jobs run in, built from the repository root |
 | `pyproject.toml`, `uv.lock` | the Python dependencies the image installs with uv |
@@ -24,10 +24,10 @@ which `hl hypothesis checkout` makes. A job runs the commit `hl job submit` push
 
 ## Roles
 
-A baseline agent measures the control before the run starts. Researchers own the hypothesis
-graph and run no job. Executors run the jobs and are ranked, and `max_agents` caps how many work
-at once. The `agents` list in the spec sets the team: agent type `researcher` makes researchers,
-and any other type makes executors.
+A baseline agent measures the control. It starts with the planner, and the executors start at the
+first baseline job. Researchers own the hypothesis graph and run no job. Executors run the jobs and
+are ranked. The `agents` list in the spec sets the team: agent type `researcher` makes researchers,
+and any other type makes executors. The executors in the list are how many work at once.
 
 ## Models
 
