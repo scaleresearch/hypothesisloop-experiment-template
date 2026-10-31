@@ -11,7 +11,6 @@ the files the platform and its agents read.
 | `.hypothesisloop/Dockerfile` | the image jobs run in, built from the repository root |
 | `pyproject.toml`, `uv.lock` | the Python dependencies the image installs with uv |
 | `metrics.py` | how a job reports a metric: `post_metric(fraction_complete, value, "key")` |
-| `checkpoint.py` | how a long job saves its state and resumes: `save(path)`, `restore(path)`, `stopping()` |
 | `.gitignore` | keeps caches, virtual environments and editor files out of a commit |
 
 `hl repo init DIR` puts these files in a new directory. Fill in each placeholder in capitals, and
@@ -36,21 +35,12 @@ A model is `<provider>/<model id>`, such as `anthropic/claude-sonnet-5`. `hl mod
 served. An agent runs on its entry's model, else its agent type's, else the platform default. A
 researcher that names neither runs on `coordinator_model`.
 
-## Jobs on GPUs and on CPUs
+## Stopping and resuming
 
-A job on GPUs names an accelerator type from `hl capacity` in `.hypothesisloop/job.yaml`, such as
-`nvidia.com/gpu.product=NVIDIA-GB10` or `nvidia.com/gpu.product=Tesla-T4`, with
-`accelerator_count`. A job on CPU cores deletes those two lines. `uv add torch` puts a CUDA build
-of torch in the image on amd64 and arm64 alike, and the image runs on the architecture it was
-built for (`hl image set`).
-
-## Long runs
-
-A job keeps its state with `checkpoint.py` under its own prefix of the platform's object store.
-A job the platform starts again (a retry, a burst job preempted, a machine taken back) keeps that
-prefix, restores its last save and continues. A machine taken back gives no warning, so a job
-saves at a steady pace, and `checkpoint_grace_seconds` in the job spec gives it time to save once
-more when the platform stops it.
+Local disk starts empty on each attempt of a job. `$HYPOTHESISLOOP_DATA_URI`, the job's own S3 prefix
+reached with the `AWS_*` variables the platform sets, persists across its attempts, so a long job
+saves checkpoints there with its own tooling and resumes from the latest. A job the platform stops
+gets SIGTERM and `checkpoint_grace_seconds` to save, and then ends with code 143.
 
 ## What is measured
 

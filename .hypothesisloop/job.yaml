@@ -27,11 +27,7 @@ job:
   # env:
   #   SEED: "0"
 
-  # A run of hours saves its state with checkpoint.py under its own prefix of the platform's
-  # object store. A job the platform starts again (a retry, a burst job preempted, a machine taken
-  # back) keeps its id and so its prefix, where it restores its last save and continues. When the
-  # platform stops a job (preemption, a stage cut, the budget or the run's end) it sends SIGTERM,
-  # and the job runs on this long to save once more, within the platform's cap.
+  # Seconds a stopped job runs on after SIGTERM to save a checkpoint, within the platform's cap.
   # checkpoint_grace_seconds: 120
 
   # A job over several identical nodes. accelerator_count, cpu, memory and storage are per node,
