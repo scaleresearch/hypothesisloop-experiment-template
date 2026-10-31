@@ -9,12 +9,15 @@ the files the platform and its agents read.
 | `.hypothesisloop/experiment.yaml` | the experiment spec: its name, description, metrics, budget (in H100-hours), length and team |
 | `.hypothesisloop/job.yaml` | the base job spec, submitted unedited for every trial |
 | `.hypothesisloop/Dockerfile` | the image jobs run in, built from the repository root |
-| `pyproject.toml`, `uv.lock` | the Python dependencies the image installs with uv |
+| `pyproject.toml`, `uv.lock` | the Python dependencies the image installs with uv; run `uv lock` after changing them, since the image builds with `--locked` |
 | `metrics.py` | how a job reports a metric: `post_metric(fraction_complete, value, "key")` |
 | `.gitignore` | keeps caches, virtual environments and editor files out of a commit |
 
 `hl repo init DIR` puts these files in a new directory. Fill in each placeholder in capitals, and
 `hl repo check` says what is left. `hl platform-experiments start DIR` creates the experiment.
+
+The image is built from the repository root for the architecture of the nodes its jobs run on,
+pushed to the repository `hl image repository` names, and recorded with `hl image set`.
 
 ## Branches
 
