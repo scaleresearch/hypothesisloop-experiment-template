@@ -39,8 +39,9 @@ researcher that names neither runs on `coordinator_model`.
 
 Local disk starts empty on each attempt of a job. `$HYPOTHESISLOOP_DATA_URI`, the job's own S3 prefix
 reached with the `AWS_*` variables the platform sets, persists across its attempts, so a long job
-saves checkpoints there with its own tooling and resumes from the latest. A job the platform stops
-gets SIGTERM and `checkpoint_grace_seconds` to save, and then ends with code 143.
+saves checkpoints there with its own tooling at a steady pace and resumes from the latest. A job
+the platform decides to stop gets SIGTERM and `checkpoint_grace_seconds` to save, and then ends
+with code 143; a machine that is lost or taken back gives no warning.
 
 ## What is measured
 
